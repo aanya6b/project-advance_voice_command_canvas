@@ -5,11 +5,10 @@ screen_height = 0;
 speak_data = "";
 to_number = "";
 draw_apple = "";
-apple = "apple.png";
 
 function preload()
 {
-  loadImage(apple);
+  apple = loadImage("apple.png");
 }
 
 
@@ -32,6 +31,7 @@ recognition.onresult = function(event)
   document.getElementById("status").innerHTML = "The speech has been recognized: " + content;
 
   to_number = Number(content);
+  
   if(Number.isInteger(to_number))
   {
     document.getElementById("status").innerHTML = "Started drawing apple";
@@ -62,9 +62,13 @@ function draw()
     {
       x = Math.floor(Math.random() * 700);
       y = Math.floor(Math.random() * 400);
-      image("apple.png", x, y, 50, 50);
+      image(apple, x, y, 50, 50);
     }
-
+    
+    var synth = window.speechSynthesis;
+    var utterThis = new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+    speak();
     document.getElementById("status").innerHTML = to_number + " Apples drawn";
     draw_apple = "";
   }
@@ -76,7 +80,6 @@ function speak()
     var synth = window.speechSynthesis;
     var utterThis = new SpeechSynthesisUtterance(speak_data);
 
-    synth.speak(utterThis);
-    speak_data = to_number + " Apples drawn";
+    speak_data =to_number + "APPLES DRAWN";
     speak_data.speak()
 }
